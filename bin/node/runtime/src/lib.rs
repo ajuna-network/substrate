@@ -95,6 +95,9 @@ use sp_runtime::generic::Era;
 /// Generated voter bag information.
 mod voter_bags;
 
+/// Import the boilerplate pallet.
+pub use pallet_boilerplate;
+
 // Make the WASM binary available.
 #[cfg(feature = "std")]
 include!(concat!(env!("OUT_DIR"), "/wasm_binary.rs"));
@@ -1240,6 +1243,11 @@ impl pallet_transaction_storage::Config for Runtime {
 	type WeightInfo = pallet_transaction_storage::weights::SubstrateWeight<Runtime>;
 }
 
+/// Configure the pallet-boilerplate in pallets/boilerplate.
+impl pallet_boilerplate::Config for Runtime {
+	type Event = Event;
+}
+
 construct_runtime!(
 	pub enum Runtime where
 		Block = Block,
@@ -1287,6 +1295,8 @@ construct_runtime!(
 		Uniques: pallet_uniques::{Pallet, Call, Storage, Event<T>},
 		TransactionStorage: pallet_transaction_storage::{Pallet, Call, Storage, Inherent, Config<T>, Event<T>},
 		BagsList: pallet_bags_list::{Pallet, Call, Storage, Event<T>},
+		// Include the custom logic from the pallet-boilerplate in the runtime.
+		BoilerPlate: pallet_boilerplate::{Pallet, Call, Storage, Event<T>},
 	}
 );
 
@@ -1725,7 +1735,8 @@ impl_runtime_apis! {
 			add_benchmark!(params, batches, pallet_uniques, Uniques);
 			add_benchmark!(params, batches, pallet_utility, Utility);
 			add_benchmark!(params, batches, pallet_vesting, Vesting);
-
+			add_benchmark!(params, batches, pallet_boilerplate, BoilerPlate);
+			
 			if batches.is_empty() { return Err("Benchmark not found for this pallet.".into()) }
 			Ok(batches)
 		}
