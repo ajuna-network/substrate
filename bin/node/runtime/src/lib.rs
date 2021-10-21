@@ -95,8 +95,10 @@ use sp_runtime::generic::Era;
 /// Generated voter bag information.
 mod voter_bags;
 
-/// Import the boilerplate pallet.
+/// Import the ajuna pallets.
 pub use pallet_boilerplate;
+pub use pallet_matchmaker;
+pub use pallet_dotmog;
 
 // Make the WASM binary available.
 #[cfg(feature = "std")]
@@ -115,15 +117,15 @@ pub fn wasm_binary_unwrap() -> &'static [u8] {
 /// Runtime version.
 #[sp_version::runtime_version]
 pub const VERSION: RuntimeVersion = RuntimeVersion {
-	spec_name: create_runtime_str!("node"),
-	impl_name: create_runtime_str!("substrate-node"),
-	authoring_version: 10,
+	spec_name: create_runtime_str!("ajuna"),
+	impl_name: create_runtime_str!("ajuna-network"),
+	authoring_version: 0,
 	// Per convention: if the runtime behavior changes, increment spec_version
 	// and set impl_version to 0. If only runtime
 	// implementation changes and behavior does not, then leave spec_version as
 	// is and increment impl_version.
-	spec_version: 267,
-	impl_version: 1,
+	spec_version: 1,
+	impl_version: 0,
 	apis: RUNTIME_API_VERSIONS,
 	transaction_version: 2,
 };
@@ -1139,24 +1141,24 @@ impl pallet_mmr::Config for Runtime {
 	type WeightInfo = ();
 }
 
-parameter_types! {
-	pub const LotteryPalletId: PalletId = PalletId(*b"py/lotto");
-	pub const MaxCalls: u32 = 10;
-	pub const MaxGenerateRandom: u32 = 10;
-}
+//parameter_types! {
+//	pub const LotteryPalletId: PalletId = PalletId(*b"py/lotto");
+//	pub const MaxCalls: u32 = 10;
+//	pub const MaxGenerateRandom: u32 = 10;
+//}
 
-impl pallet_lottery::Config for Runtime {
-	type PalletId = LotteryPalletId;
-	type Call = Call;
-	type Currency = Balances;
-	type Randomness = RandomnessCollectiveFlip;
-	type Event = Event;
-	type ManagerOrigin = EnsureRoot<AccountId>;
-	type MaxCalls = MaxCalls;
-	type ValidateCall = Lottery;
-	type MaxGenerateRandom = MaxGenerateRandom;
-	type WeightInfo = pallet_lottery::weights::SubstrateWeight<Runtime>;
-}
+//impl pallet_lottery::Config for Runtime {
+//	type PalletId = LotteryPalletId;
+//	type Call = Call;
+//	type Currency = Balances;
+//	type Randomness = RandomnessCollectiveFlip;
+//	type Event = Event;
+//	type ManagerOrigin = EnsureRoot<AccountId>;
+//	type MaxCalls = MaxCalls;
+//	type ValidateCall = Lottery;
+//	type MaxGenerateRandom = MaxGenerateRandom;
+//	type WeightInfo = pallet_lottery::weights::SubstrateWeight<Runtime>;
+//}
 
 parameter_types! {
 	pub const AssetDeposit: Balance = 100 * DOLLARS;
@@ -1248,6 +1250,26 @@ impl pallet_boilerplate::Config for Runtime {
 	type Event = Event;
 }
 
+parameter_types! {
+	pub const AmountPlayers: u8 = 2;
+	pub const AmountBrackets: u8 = 3;
+}
+
+impl pallet_matchmaker::Config for Runtime {
+	type Event = Event;
+	type AmountPlayers = AmountPlayers;
+	type AmountBrackets = AmountBrackets;
+}
+
+/// Configure the pallet-boilerplate in pallets/boilerplate.
+impl pallet_dotmog::Config for Runtime {
+	//type ModuleId = DotMogModuleId;
+	type Event = Event;
+	type Currency = Balances;
+	type Randomness = RandomnessCollectiveFlip;
+	//type PricePayment = ();
+}
+
 construct_runtime!(
 	pub enum Runtime where
 		Block = Block,
@@ -1290,13 +1312,16 @@ construct_runtime!(
 		Tips: pallet_tips::{Pallet, Call, Storage, Event<T>},
 		Assets: pallet_assets::{Pallet, Call, Storage, Event<T>, Config<T>},
 		Mmr: pallet_mmr::{Pallet, Storage},
-		Lottery: pallet_lottery::{Pallet, Call, Storage, Event<T>},
+		//Lottery: pallet_lottery::{Pallet, Call, Storage, Event<T>},
 		Gilt: pallet_gilt::{Pallet, Call, Storage, Event<T>, Config},
 		Uniques: pallet_uniques::{Pallet, Call, Storage, Event<T>},
 		TransactionStorage: pallet_transaction_storage::{Pallet, Call, Storage, Inherent, Config<T>, Event<T>},
 		BagsList: pallet_bags_list::{Pallet, Call, Storage, Event<T>},
+
 		// Include the custom logic from the pallet-boilerplate in the runtime.
 		BoilerPlate: pallet_boilerplate::{Pallet, Call, Storage, Event<T>},
+		MatchMaker: pallet_matchmaker::{Pallet, Call, Storage, Event<T>},
+		DotMog: pallet_dotmog::{Pallet, Call, Storage, Event<T>},
 	}
 );
 
@@ -1644,7 +1669,7 @@ impl_runtime_apis! {
 			list_benchmark!(list, extra, pallet_identity, Identity);
 			list_benchmark!(list, extra, pallet_im_online, ImOnline);
 			list_benchmark!(list, extra, pallet_indices, Indices);
-			list_benchmark!(list, extra, pallet_lottery, Lottery);
+			//list_benchmark!(list, extra, pallet_lottery, Lottery);
 			list_benchmark!(list, extra, pallet_membership, TechnicalMembership);
 			list_benchmark!(list, extra, pallet_mmr, Mmr);
 			list_benchmark!(list, extra, pallet_multisig, Multisig);
@@ -1718,7 +1743,7 @@ impl_runtime_apis! {
 			add_benchmark!(params, batches, pallet_identity, Identity);
 			add_benchmark!(params, batches, pallet_im_online, ImOnline);
 			add_benchmark!(params, batches, pallet_indices, Indices);
-			add_benchmark!(params, batches, pallet_lottery, Lottery);
+			//add_benchmark!(params, batches, pallet_lottery, Lottery);
 			add_benchmark!(params, batches, pallet_membership, TechnicalMembership);
 			add_benchmark!(params, batches, pallet_mmr, Mmr);
 			add_benchmark!(params, batches, pallet_multisig, Multisig);

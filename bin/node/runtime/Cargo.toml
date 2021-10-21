@@ -99,8 +99,9 @@ pallet-uniques = { version = "4.0.0-dev", default-features = false, path = "../.
 pallet-vesting = { version = "4.0.0-dev", default-features = false, path = "../../../frame/vesting" }
 
 # Used for the node template's RPCs
-pallet-boilerplate = { version = "3.0.0", default-features = false, path = "../pallets/boilerplate" }
-
+pallet-boilerplate = { version = "4.0.0-dev", default-features = false, path = "../pallets/boilerplate" }
+pallet-matchmaker = { version = "4.0.0-dev", default-features = false, path = "../pallets/matchmaker" }
+pallet-dotmog = { version = "4.0.0-dev", default-features = false, path = "../pallets/dotmog" }
 
 [build-dependencies]
 substrate-wasm-builder = { version = "5.0.0-dev", path = "../../../utils/wasm-builder" }
@@ -133,7 +134,7 @@ std = [
 	"pallet-im-online/std",
 	"pallet-indices/std",
 	"sp-inherents/std",
-	"pallet-lottery/std",
+#	"pallet-lottery/std",
 	"pallet-membership/std",
 	"pallet-mmr/std",
 	"pallet-multisig/std",
@@ -175,7 +176,10 @@ std = [
 	"log/std",
 	"frame-try-runtime/std",
 	"sp-npos-elections/std",
-  "sp-io/std"
+	"pallet-boilerplate/std",
+	"pallet-matchmaker/std",
+	"pallet-dotmog/std",
+  	"sp-io/std"
 ]
 runtime-benchmarks = [
 	"frame-benchmarking",
@@ -197,7 +201,7 @@ runtime-benchmarks = [
 	"pallet-identity/runtime-benchmarks",
 	"pallet-im-online/runtime-benchmarks",
 	"pallet-indices/runtime-benchmarks",
-	"pallet-lottery/runtime-benchmarks",
+#	"pallet-lottery/runtime-benchmarks",
 	"pallet-membership/runtime-benchmarks",
 	"pallet-mmr/runtime-benchmarks",
 	"pallet-multisig/runtime-benchmarks",
@@ -234,7 +238,7 @@ try-runtime = [
 	"pallet-grandpa/try-runtime",
 	"pallet-im-online/try-runtime",
 	"pallet-indices/try-runtime",
-	"pallet-lottery/try-runtime",
+#	"pallet-lottery/try-runtime",
 	"pallet-membership/try-runtime",
 	"pallet-mmr/try-runtime",
 	"pallet-multisig/try-runtime",

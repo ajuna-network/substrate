@@ -2,22 +2,22 @@
 authors = ['Substrate DevHub <https://github.com/substrate-developer-hub>']
 edition = '2018'
 name = 'pallet-boilerplate'
-version = "3.0.0"
-license = "Unlicense"
-homepage = "https://substrate.dev"
-repository = "https://github.com/substrate-developer-hub/substrate-node-template/"
-description = "FRAME pallet boilerplate for defining custom runtime logic."
-readme = "README.md"
+version = '4.0.0-dev'
+license = 'Unlicense'
+homepage = 'https://substrate.dev'
+repository = 'https://github.com/substrate-developer-hub/substrate-node-template/'
+description = 'FRAME pallet boilerplate for defining custom runtime logic.'
+readme = 'README.md'
 publish = false
 
 [package.metadata.docs.rs]
 targets = ["x86_64-unknown-linux-gnu"]
 
 [dependencies]
-codec = { package = "parity-scale-codec", version = "2.0.0", default-features = false, features = [
-	"derive",
-] }
-scale-info = { version = "1.0", default-features = false, features = ["derive"] }
+# external dependencies
+codec = {default-features = false, features = ['derive'], package = 'parity-scale-codec', version = '2.0.0'}
+scale-info = { version = '1.0', default-features = false, features = ['derive'] }
+
 frame-support = { default-features = false, version = "4.0.0-dev", path = "../../../../frame/support" }
 frame-system = { default-features = false, version = "4.0.0-dev", path = "../../../../frame/system" }
 frame-benchmarking = { default-features = false, version = "4.0.0-dev", path = "../../../../frame/benchmarking", optional = true }
