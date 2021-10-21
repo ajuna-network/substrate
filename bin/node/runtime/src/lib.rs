@@ -1321,7 +1321,7 @@ construct_runtime!(
 		// Include the custom logic from the pallet-boilerplate in the runtime.
 		BoilerPlate: pallet_boilerplate::{Pallet, Call, Storage, Event<T>},
 		MatchMaker: pallet_matchmaker::{Pallet, Call, Storage, Event<T>},
-		DotMog: pallet_dotmog::{Pallet, Call, Storage, Event<T>},
+		DotMog: pallet_dotmog::{Pallet, Call, Storage, Event<T>, Config<T>},
 	}
 );
 
