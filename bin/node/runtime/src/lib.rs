@@ -95,6 +95,11 @@ use sp_runtime::generic::Era;
 /// Generated voter bag information.
 mod voter_bags;
 
+/// Import the ajuna pallets.
+pub use pallet_boilerplate;
+pub use pallet_matchmaker;
+pub use pallet_connectfour;
+
 // Make the WASM binary available.
 #[cfg(feature = "std")]
 include!(concat!(env!("OUT_DIR"), "/wasm_binary.rs"));
@@ -112,15 +117,15 @@ pub fn wasm_binary_unwrap() -> &'static [u8] {
 /// Runtime version.
 #[sp_version::runtime_version]
 pub const VERSION: RuntimeVersion = RuntimeVersion {
-	spec_name: create_runtime_str!("node"),
-	impl_name: create_runtime_str!("substrate-node"),
-	authoring_version: 10,
+	spec_name: create_runtime_str!("ajuna"),
+	impl_name: create_runtime_str!("ajuna-network"),
+	authoring_version: 1,
 	// Per convention: if the runtime behavior changes, increment spec_version
 	// and set impl_version to 0. If only runtime
 	// implementation changes and behavior does not, then leave spec_version as
 	// is and increment impl_version.
-	spec_version: 267,
-	impl_version: 1,
+	spec_version: 1,
+	impl_version: 0,
 	apis: RUNTIME_API_VERSIONS,
 	transaction_version: 2,
 };
@@ -1240,6 +1245,31 @@ impl pallet_transaction_storage::Config for Runtime {
 	type WeightInfo = pallet_transaction_storage::weights::SubstrateWeight<Runtime>;
 }
 
+impl pallet_boilerplate::Config for Runtime {
+	type Event = Event;
+}
+
+parameter_types! {
+	pub const AmountPlayers: u8 = 2;
+	pub const AmountBrackets: u8 = 3;
+}
+
+type MatchMakerInst1 = pallet_matchmaker::Instance1;
+impl pallet_matchmaker::Config<MatchMakerInst1> for Runtime {
+	type Event = Event;
+	type AmountPlayers = AmountPlayers;
+	type AmountBrackets = AmountBrackets;
+}
+
+impl pallet_connectfour::Config for Runtime {
+	type Proposal = Call;
+	type Event = Event;
+	type Randomness = RandomnessCollectiveFlip;
+	type Scheduler = Scheduler;
+	type PalletsOrigin = OriginCaller;
+	type MatchMaker = ConnectFourMama;
+}
+
 construct_runtime!(
 	pub enum Runtime where
 		Block = Block,
@@ -1287,6 +1317,11 @@ construct_runtime!(
 		Uniques: pallet_uniques::{Pallet, Call, Storage, Event<T>},
 		TransactionStorage: pallet_transaction_storage::{Pallet, Call, Storage, Inherent, Config<T>, Event<T>},
 		BagsList: pallet_bags_list::{Pallet, Call, Storage, Event<T>},
+		
+		// additional pallets
+		BoilerPlate: pallet_boilerplate::{Pallet, Call, Storage, Event<T>},
+		ConnectFourMama: pallet_matchmaker::<Instance1>::{Pallet, Call, Storage, Event<T>},
+		ConnectFour: pallet_connectfour::{Pallet, Call, Config<T>, Storage, Event<T>},
 	}
 );
 
@@ -1623,6 +1658,7 @@ impl_runtime_apis! {
 			list_benchmark!(list, extra, pallet_babe, Babe);
 			list_benchmark!(list, extra, pallet_bags_list, BagsList);
 			list_benchmark!(list, extra, pallet_balances, Balances);
+			list_benchmark!(list, extra, pallet_boilerplate, BoilerPlate);
 			list_benchmark!(list, extra, pallet_bounties, Bounties);
 			list_benchmark!(list, extra, pallet_collective, Council);
 			list_benchmark!(list, extra, pallet_contracts, Contracts);
@@ -1697,6 +1733,7 @@ impl_runtime_apis! {
 			add_benchmark!(params, batches, pallet_babe, Babe);
 			add_benchmark!(params, batches, pallet_balances, Balances);
 			add_benchmark!(params, batches, pallet_bags_list, BagsList);
+			add_benchmark!(params, batches, pallet_boilerplate, BoilerPlate);
 			add_benchmark!(params, batches, pallet_bounties, Bounties);
 			add_benchmark!(params, batches, pallet_collective, Council);
 			add_benchmark!(params, batches, pallet_contracts, Contracts);
