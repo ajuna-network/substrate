@@ -1,10 +1,19 @@
-#Download base image ubuntu 20.04
+#
+# Ajuna Network
+# Substrate testing image
+#
+# Building
+# docker build -t substrate:ajuna .
+#
+# Running
+# docker run --rm -d  -p 30333:30333/tcp -p 9933:9933/tcp -p 9944:9944/tcp substrate:ajuna
+
 FROM ubuntu:20.04 as builder
 
 # LABEL about the custom image
 LABEL maintainer="hello@ajuna.io"
 LABEL version="0.1"
-LABEL description="This is custom Docker Image for the ajuna network."
+LABEL description="This image is for development purposes. Follow the instruction in Dockerfile to build and start this image."
 
 # Disable Prompt During Packages Installation
 ARG DEBIAN_FRONTEND=noninteractive
@@ -14,12 +23,12 @@ ARG GIT_BRANCH=ajuna-node
 # Update Ubuntu Software repository
 RUN apt update  &&  \
     apt-get install -y \
-        clang \
-        cmake \
-        curl \
-        git \
-        libssl-dev \
-        pkg-config
+    clang \
+    cmake \
+    curl \
+    git \
+    libssl-dev \
+    pkg-config
 
 RUN curl https://sh.rustup.rs -sSf | sh -s -- -y
 
@@ -32,24 +41,27 @@ RUN git clone ${GIT_REPO} substrate && \
 
 RUN rustup default stable && \
     rustup update && \
-    rustup update nightly && \	
+    rustup update nightly && \
     rustup target add wasm32-unknown-unknown --toolchain nightly
 
 RUN cd substrate && \
-    cargo build --release && \	
-    cp target/release /node
+    cargo build --release && \
+    cp -r target/release /node
 
-# ===== SECOND STAGE ======
-
+#
+# Ajuna.Network Runner
+#
+# Description
+# This is the runtime environment. Copy from build environment and kick-off the node.
+#
 FROM ubuntu:20.04
 
 COPY --from=builder /node /usr/local/bin
 
-# install curl in the event we want to interact with the local rpc
 RUN apt-get update && apt-get install -y curl
 RUN useradd --create-home runner
 
 USER runner
 EXPOSE 30333 9933 9944
 
-ENTRYPOINT ["node"]
+CMD [ "substrate", "--dev" ]
