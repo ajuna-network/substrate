@@ -4684,8 +4684,10 @@ dependencies = [
  "pallet-babe",
  "pallet-bags-list",
  "pallet-balances",
+ "pallet-boilerplate",
  "pallet-bounties",
  "pallet-collective",
+ "pallet-connectfour",
  "pallet-contracts",
  "pallet-contracts-primitives",
  "pallet-contracts-rpc-runtime-api",
@@ -4698,6 +4700,7 @@ dependencies = [
  "pallet-im-online",
  "pallet-indices",
  "pallet-lottery",
+ "pallet-matchmaker",
  "pallet-membership",
  "pallet-mmr",
  "pallet-multisig",
@@ -5265,6 +5268,20 @@ dependencies = [
 ]
 
 [[package]]
+name = "pallet-boilerplate"
+version = "3.0.0"
+dependencies = [
+ "frame-benchmarking",
+ "frame-support",
+ "frame-system",
+ "parity-scale-codec",
+ "scale-info",
+ "sp-core",
+ "sp-io",
+ "sp-runtime",
+]
+
+[[package]]
 name = "pallet-bounties"
 version = "4.0.0-dev"
 dependencies = [
@@ -5290,6 +5307,24 @@ dependencies = [
  "frame-support",
  "frame-system",
  "log 0.4.14",
+ "parity-scale-codec",
+ "scale-info",
+ "sp-core",
+ "sp-io",
+ "sp-runtime",
+ "sp-std",
+]
+
+[[package]]
+name = "pallet-connectfour"
+version = "4.0.0-dev"
+dependencies = [
+ "frame-benchmarking",
+ "frame-support",
+ "frame-support-test",
+ "frame-system",
+ "pallet-matchmaker",
+ "pallet-scheduler",
  "parity-scale-codec",
  "scale-info",
  "sp-core",
@@ -5623,6 +5658,21 @@ dependencies = [
  "frame-support-test",
  "frame-system",
  "pallet-balances",
+ "parity-scale-codec",
+ "scale-info",
+ "sp-core",
+ "sp-io",
+ "sp-runtime",
+ "sp-std",
+]
+
+[[package]]
+name = "pallet-matchmaker"
+version = "4.0.0-dev"
+dependencies = [
+ "frame-benchmarking",
+ "frame-support",
+ "frame-system",
  "parity-scale-codec",
  "scale-info",
  "sp-core",
