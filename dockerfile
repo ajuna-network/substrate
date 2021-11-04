@@ -64,4 +64,4 @@ RUN useradd --create-home runner
 USER runner
 EXPOSE 30333 9933 9944
 
-CMD [ "substrate", "--dev", "--ws-external", "--rpc-external", "--rpc-cors=all" ]
+CMD [ "substrate", "--dev", "--unsafe-ws-external", "--unsafe-rpc-external", "--prometheus-external", "--rpc-cors=all", "--rpc-methods=Unsafe" ]
