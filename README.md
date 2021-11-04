@@ -13,8 +13,10 @@ Simply go to [substrate.dev](https://substrate.dev) and follow the
 also try out one of the [tutorials](https://substrate.dev/en/tutorials).
 
 ## Docker
-docker build -t substrate:ajuna .
-docker run --rm -d  -p 30333:30333/tcp -p 9933:9933/tcp -p 9944:9944/tcp substrate:ajuna
+```
+docker build -t substrate:ajuna .  
+docker run --rm -d  -p 30333:30333/tcp -p 9933:9933/tcp -p 9944:9944/tcp substrate:ajuna  
+```
 
 ## Contributions & Code of Conduct
 
