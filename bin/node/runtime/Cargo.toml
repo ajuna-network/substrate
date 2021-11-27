@@ -98,9 +98,15 @@ pallet-transaction-storage = { version = "4.0.0-dev", default-features = false, 
 pallet-uniques = { version = "4.0.0-dev", default-features = false, path = "../../../frame/uniques" }
 pallet-vesting = { version = "4.0.0-dev", default-features = false, path = "../../../frame/vesting" }
 
+# ajuna-pallets
 pallet-boilerplate = { version = "3.0.0", default-features = false, path = "../pallets/boilerplate" }
 pallet-matchmaker = { version = "4.0.0-dev", default-features = false, path = "../pallets/matchmaker" }
 pallet-connectfour = { version = "4.0.0-dev", default-features = false, path = "../pallets/connectfour" }
+#pallet-matchmaker = { default-features = false, git = "https://github.com/ajuna-network/pallets-ajuna.git", branch = "master" }
+#pallet-connectfour = { default-features = false, git = "https://github.com/ajuna-network/pallets-ajuna.git", branch = "master" }
+
+# integritee-pallets
+#pallet-teerex = { default-features = false, git = "https://github.com/integritee-network/pallets.git", branch = "master" }
 
 [build-dependencies]
 substrate-wasm-builder = { version = "5.0.0-dev", path = "../../../utils/wasm-builder" }
